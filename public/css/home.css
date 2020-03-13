@@ -1,0 +1,16 @@
+
+body {
+    background-color: #ff9933;
+    color: white;
+}
+  
+.centered {
+    padding-top: 200px;
+    text-align: center;
+}
+
+.jumbotron{
+background-color: transparent;
+}
+  
+  

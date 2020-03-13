@@ -23,7 +23,7 @@ app.use(userRouter)
 
 
 app.get('/', (req, res) => {
-    res.send("Hi there")
+    res.render('home')
 })
 
 app.listen(PORT, () => {
