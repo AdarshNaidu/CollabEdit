@@ -25,7 +25,7 @@ router.post('/users', (req, res) => {
             res.status(500).send(err.message);
         }else{
             passport.authenticate('local')(req, res, function(){
-                res.redirect('/');
+                res.redirect('/users/dashboard');
             })
         }
     })
@@ -45,7 +45,7 @@ router.post('/users/login', (req, res) => {
             res.status(500).send(err.message);
         }else{
             passport.authenticate('local', {
-                successRedirect: '/',
+                successRedirect: '/users/dashboard',
                 failureRedirect: '/login'
             })(req, res, function(){
                 res.redirect('/');
@@ -54,6 +54,13 @@ router.post('/users/login', (req, res) => {
     })
 })
 
+router.get('/users/dashboard', (req, res) => {
+    if(req.user){
+        res.render('dashboard', {
+            name, email
+        } = req.user)
+    }
+})
 
 //Endpoint for user logout
 router.get('/users/logout', (req, res) => {
