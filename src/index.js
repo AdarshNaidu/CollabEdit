@@ -3,6 +3,7 @@ const path = require('path')
 const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const userRouter = require('./routes/user');
+const editorRouter = require('./routes/editor');
 
 require('./database/database')
 
@@ -20,7 +21,7 @@ app.use(bodyParser.json());
 app.set('view engine', 'hbs');
 app.set('views', viewsPath);
 app.use(userRouter)
-
+app.use(editorRouter)
 
 app.get('/', (req, res) => {
     res.render('home')
