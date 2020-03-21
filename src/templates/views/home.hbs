@@ -17,10 +17,16 @@
             <p class="lead">Seamless and free collaboration platform with extra features</p>
             <hr>
             <a class="btn btn-light btn-lg" href="/register" role="button">Register</a>
-            <a class="btn btn-dark btn-lg" href="/login" role="button">Login</a>
-
+            <a class="btn btn-light btn-lg" href="/login" role="button">Login</a>
+            {{!-- <input type="text" class="form-control w-50 mx-auto mt-3" placeholder="Start a collab"> --}}
+            <div class="input-group mb-3 w-50 mx-auto mt-3">
+            <input type="text" class="form-control" id="input" placeholder="Start a Collab">
+            <div class="input-group-append">
+                <button class="btn btn-dark" type="button" onclick="Collab(event)" id="button">Button</button>
+            </div>
+            </div>
         </div>
     </div>
-    
+    <script src="/js/home.js"></script>
 </body>
 </html>
