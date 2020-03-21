@@ -35,6 +35,10 @@ app.get('/register', (req, res) => {
     res.render('register')
 })
 
-app.listen(PORT, () => {
+const listener = app.listen(PORT, () => {
     console.log(`Server listening at port ${PORT}`)
 })
+
+module.exports = listener
+
+require('./lib/collab')

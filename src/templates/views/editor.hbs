@@ -13,12 +13,15 @@
     <link rel="stylesheet" href="/css/editor.css">
 
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
-    <script src="/client.js" defer></script>
+    <script src="/js/editor.js" defer></script>
   </head>
   <body>
     <h1 class="display-3">
       Collab-Edit
     </h1>
+    <h2>
+        {{title}}
+    </h2>
     <textarea id ="editor" type = "text"></textarea>
     <button onclick="Refresh()">Refresh</button>
   </body>
