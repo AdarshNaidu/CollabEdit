@@ -1,20 +1,31 @@
 const listener = require('../index')
+const Document = require('../database/models/document')
 
 const socket = require('socket.io')
 const io = socket(listener);
 lists = {}
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
     console.log(`made socket connection with ${socket.id}`)
 
-    socket.on('join', room => {
+    socket.on('join', async (room) => {
         socket.join(room)
         console.log(`${socket.id} joined room ${room}`)
         if(!(room in lists)){
-            lists[room] = {
-              count: 1,
-              list : []
+          // let doc = await Document.exists({_id: room})
+          let saved = false
+          if (room.match(/^[0-9a-fA-F]{24}$/)) {
+            let exists = await Document.exists({_id: room})
+            if(exists){
+              saved = true
             }
+          }
+          
+          lists[room] = {
+            count: 1,
+            list : [],
+            saved: saved
+          }
         }else{
           lists[room].count++
         }
@@ -69,9 +80,22 @@ io.on('connection', (socket) => {
         socket.to(room).emit('message', message)
     })
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', async () => {
       room = socket.handshake.headers.referer.split('/')[4]
-      if(lists[room].count == 1) delete lists[room]
+      if(lists[room] && lists[room].count == 1) {
+        // if (room.match(/^[0-9a-fA-F]{24}$/)) {
+        //   let exists = await Document.exists({_id: room})
+        //   if(exists){
+        //     saved = true
+        //   }
+        // }
+        if(lists[room].saved){
+          let doc = await Document.findById(room)
+          doc.crdt = lists[room].list
+          await doc.save()
+        }
+        delete lists[room]
+      }
       else lists[room].count--
     })
 })
