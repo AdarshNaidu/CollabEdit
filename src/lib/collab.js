@@ -11,46 +11,51 @@ io.on('connection', (socket) => {
         socket.join(room)
         console.log(`${socket.id} joined room ${room}`)
         if(!(room in lists)){
-            lists[room] = []
+            lists[room] = {
+              count: 1,
+              list : []
+            }
+        }else{
+          lists[room].count++
         }
-        socket.emit("initiation", lists[room]);
+        socket.emit("initiation", lists[room].list);
     })
 
     socket.on("insertFirst", function(data) {
-        lists[data.room].push(data.character);
+        lists[data.room].list.push(data.character);
         socket.to(data.room).emit("insertFirst", data.character);
       });
 
       socket.on("insert", function(data) {
         let index;
-        for (let i = 0; i < lists[data.room].length; i++) {
+        for (let i = 0; i < lists[data.room].list.length; i++) {
           // if(isEqual(list[i], data.position)) index = i;
           if(!data.position){
             index = -1
           }
           else if (
-            lists[data.room][i].siteId == data.position.siteId &&
-            lists[data.room][i].count == data.position.count &&
-            lists[data.room][i].value == data.position.value
+            lists[data.room].list[i].siteId == data.position.siteId &&
+            lists[data.room].list[i].count == data.position.count &&
+            lists[data.room].list[i].value == data.position.value
           )
             index = i;
         }
-        lists[data.room].splice(index + 1, 0, data.character);
+        lists[data.room].list.splice(index + 1, 0, data.character);
         socket.to(data.room).emit("insert", data);
       });
 
       socket.on("delete", function(data) {
         let index;
-        for (let i = 0; i < lists[data.room].length; i++) {
+        for (let i = 0; i < lists[data.room].list.length; i++) {
           // if(isEqual(list[i], character)) index = i;
           if (
-            lists[data.room][i].siteId == data.character.siteId &&
-            lists[data.room][i].count == data.character.count &&
-            lists[data.room][i].value == data.character.value
+            lists[data.room].list[i].siteId == data.character.siteId &&
+            lists[data.room].list[i].count == data.character.count &&
+            lists[data.room].list[i].value == data.character.value
           )
             index = i;
         }
-        if (index != null) lists[data.room].splice(index, 1);
+        if (index != null) lists[data.room].list.splice(index, 1);
         socket.to(data.room).emit("delete", data.character);
       });
 
@@ -65,6 +70,8 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect', () => {
-      console.log(socket.handshake.headers.referer.split('/')[4])
+      room = socket.handshake.headers.referer.split('/')[4]
+      if(lists[room].count == 1) delete lists[room]
+      else lists[room].count--
     })
 })
