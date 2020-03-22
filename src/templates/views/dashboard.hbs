@@ -13,7 +13,35 @@
         <div class="jumbotron">
             <p>Name: {{name}}</p>
             <p>Email: {{email}}</p>
+            <div class="input-group mb-3 w-50 mx-auto mt-3">
+            <input type="text" class="form-control" id="input" placeholder="Start a Collab">
+            <div class="input-group-append">
+                <button class="btn btn-dark" type="button" onclick="Collab(event)" id="button">Button</button>
+            </div>
+            </div>
+
+
+
+            <form action="/document" method="POST">
+                <div class="form-group">
+                <label for="name">Title</label>
+                <input type="text" class="form-control" name="name" required>
+                </div>
+                <button type="submit" class="btn btn-dark">Collab</button>
+            </form>
+
+            {{!-- <p>{{documents}}</p> --}}
+
+            {{#each documents}}
+            <div class="product">
+                <div class="email">
+                    Name: {{this.name}}
+                </div>
+                <button class="btn btn-dark update" data="{{this._id}}" onclick="Update(event)">Open</button>
+            </div>
+            {{/each}}
         </div>
     </div>
+    <script src="/js/dashboard.js"></script>
 </body>
 </html>
