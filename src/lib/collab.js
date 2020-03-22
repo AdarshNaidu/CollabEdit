@@ -11,21 +11,25 @@ io.on('connection', async (socket) => {
     socket.on('join', async (room) => {
         socket.join(room)
         console.log(`${socket.id} joined room ${room}`)
+        
         if(!(room in lists)){
-          // let doc = await Document.exists({_id: room})
-          let saved = false
+          let obj = {
+            count: 1,
+            list: [],
+            saved: false
+          }
           if (room.match(/^[0-9a-fA-F]{24}$/)) {
-            let exists = await Document.exists({_id: room})
-            if(exists){
-              saved = true
+            const doc = await Document.findById(room)
+            if(doc){
+              obj = {
+                count: 1,
+                list: doc.crdt,
+                saved: true
+              }
             }
           }
           
-          lists[room] = {
-            count: 1,
-            list : [],
-            saved: saved
-          }
+          lists[room] = obj
         }else{
           lists[room].count++
         }
@@ -83,12 +87,6 @@ io.on('connection', async (socket) => {
     socket.on('disconnect', async () => {
       room = socket.handshake.headers.referer.split('/')[4]
       if(lists[room] && lists[room].count == 1) {
-        // if (room.match(/^[0-9a-fA-F]{24}$/)) {
-        //   let exists = await Document.exists({_id: room})
-        //   if(exists){
-        //     saved = true
-        //   }
-        // }
         if(lists[room].saved){
           let doc = await Document.findById(room)
           doc.crdt = lists[room].list
