@@ -17,10 +17,21 @@ const Collab = async () => {
     }
 }
 
-const Update = async (event) => {
+const Open = async (event) => {
   let id = event.toElement.attributes.data.value;
 
   window.location.href = `http://localhost:3000/editor/${id}`
+
+  
+}
+
+const Delete = async (event) => {
+  let id = event.toElement.attributes.data.value;
+  parent = event.target.parentElement
+
+  let response = await fetch(`http://localhost:3000/document/delete/${id}`)
+  await response.json()
+  parent.parentNode.removeChild(parent);
 
   
 }
