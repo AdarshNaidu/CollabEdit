@@ -4,6 +4,8 @@ const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const userRouter = require('./routes/user');
 const editorRouter = require('./routes/editor');
+const documentRouter = require('./routes/document')
+// const Document = require('./database/models/document')
 
 require('./database/database')
 
@@ -22,6 +24,7 @@ app.set('view engine', 'hbs');
 app.set('views', viewsPath);
 app.use(userRouter)
 app.use(editorRouter)
+app.use(documentRouter)
 
 app.get('/', (req, res) => {
     res.render('home')
@@ -42,3 +45,35 @@ const listener = app.listen(PORT, () => {
 module.exports = listener
 
 require('./lib/collab')
+
+
+// const myFunc = async() => {
+//     let doc = {
+//         name: 'doc',
+//         crdt: [
+//             {
+//                 siteId: 'ajds',
+//                 value: 'i',
+//                 count: 2
+//             },
+//             {
+//                 siteId: 'akd',
+//                 value: 'j',
+//                 count: 4
+//             }
+//         ],
+//     }
+
+//     try{
+//     const entry = await Document.find({_id: '5e767b3101ad973f08342575'})
+//     // entry.select
+//     // entry.crdt = doc.crdt
+//     // await entry.save()
+//     console.log('entry is this')
+//     console.log(entry)
+//     }catch(e){
+//         console.log(e)
+//     }
+// }
+
+// myFunc()
