@@ -74,9 +74,10 @@ io.on('connection', async (socket) => {
         socket.to(data.room).emit("delete", data.character);
       });
 
-      socket.on("refresh", function(room) {
-        lists[room] = [];
-        io.to(room).emit("refresh");
+      socket.on("refresh", function(data) {
+        console.log(data.room)
+        lists[data.room].list = [];
+        io.to(data.room).emit("refresh");
       });
 
     socket.on('message', ({room, message}) => {
