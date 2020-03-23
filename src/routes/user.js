@@ -3,6 +3,7 @@ const session = require('express-session');
 const passport = require('passport');
 const passportLocalMongoose = require('passport-local-mongoose');
 const User = require('../database/models/user')
+const Document = require('../database/models/document')
 
 const router = express.Router();
 
@@ -54,11 +55,18 @@ router.post('/users/login', (req, res) => {
     })
 })
 
-router.get('/users/dashboard', (req, res) => {
+router.get('/users/dashboard', async (req, res) => {
     if(req.user){
+        // res.render('dashboard', {
+        //     name, email
+        // } = req.user)
+        const documents = await Document.find({owner: req.user._id})
+        console.log(documents)
         res.render('dashboard', {
-            name, email
-        } = req.user)
+            name: req.user.name,
+            email: req.user.email,
+            documents: documents
+        })
     }
 })
 
