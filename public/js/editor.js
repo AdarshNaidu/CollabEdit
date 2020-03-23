@@ -1,5 +1,11 @@
 var socket = io("http://localhost:3000");
-let room = document.querySelector('h2').innerText
+// let userId = document.getElementById('user')
+let room = document.querySelector('#id').innerText
+document.querySelector('#link').innerText = document.location.href
+// if(userId){
+//   room = document.querySelector('h2').innerText + userId.innerText
+//   document.querySelector('#link').innerText = room
+// }
 let crdt;
 let count = 0;
 let index;
@@ -102,6 +108,7 @@ socket.on("connect", () => {
   socket.on("initiation", function(list) {
     crdt.list = list;
     editor.value = generateString(crdt.list);
+    autosize.update(document.querySelector('textarea'))
   });
 
   socket.on("insertFirst", function(character) {
@@ -174,6 +181,13 @@ const generateString = list => {
 };
 
 function Refresh(){
+  console.log('refreshed')
   socket.emit('refresh', {room})
 }
 
+
+autosize(document.querySelector('textarea'));
+
+if(document.querySelector('#name').innerText == ""){
+  document.querySelector('#name').innerText = room
+}

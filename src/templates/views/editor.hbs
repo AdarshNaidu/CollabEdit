@@ -13,16 +13,19 @@
     <link rel="stylesheet" href="/css/editor.css">
 
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/autosize@4.0.2/dist/autosize.min.js"></script>
     <script src="/js/editor.js" defer></script>
   </head>
   <body>
     <h1 class="display-3">
       Collab-Edit
     </h1>
-    <h2>
-        {{title}}
-    </h2>
+    <h2 id="name">{{name}}</h2>
+    <h2 style="display: none;" id="id">{{title}}</h2>
+    <p id="user">{{user}}</p>
+    
     <textarea id ="editor" type = "text"></textarea>
     <button onclick="Refresh()">Refresh</button>
+    <p style="font-weight: 900; font-size: 0.8em; text-align: center"><span style="color: blueviolet;" id="link"></span></p>
   </body>
 </html>
