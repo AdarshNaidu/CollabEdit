@@ -11,33 +11,23 @@
 <body>
     <div class="container mt-5">
         <div class="jumbotron">
-            <p>Name: {{name}}</p>
-            <p>Email: {{email}}</p>
-            <div class="input-group mb-3 w-50 mx-auto mt-3">
-            <input type="text" class="form-control" id="input" placeholder="Start a Collab">
-            <div class="input-group-append">
-                <button class="btn btn-dark" type="button" onclick="Collab(event)" id="button">Button</button>
-            </div>
-            </div>
-
-
+            <h1 class="mx-auto" style="text-align: center">{{name}}</h1>
+            {{!-- <p>Email: {{email}}</p> --}}
 
             <form action="/document" method="POST">
-                <div class="form-group">
-                <label for="name">Title</label>
-                <input type="text" class="form-control" name="name" required>
-                </div>
-                <button type="submit" class="btn btn-dark">Collab</button>
+            <div class="input-group mb-3 w-50 mx-auto mt-3">
+            <input type="text" class="form-control" id="input" name="name" placeholder="Start a Collab">
+            <div class="input-group-append">
+                <button class="btn btn-dark" type="submit" id="button">Button</button>
+            </div>
+            </div>
             </form>
 
-            {{!-- <p>{{documents}}</p> --}}
-
             {{#each documents}}
-            <div class="product">
-                <div class="email">
-                    Name: {{this.name}}
-                </div>
-                <button class="btn btn-dark update" data="{{this._id}}" onclick="Update(event)">Open</button>
+            <div class="documents">
+                {{this.name}}
+                <button class="btn btn-dark update" style="margin-left: auto;" data="{{this._id}}" onclick="Open(event)">Open</button>
+                <button class="btn btn-dark update" data="{{this._id}}" onclick="Delete(event)">Delete</button>
             </div>
             {{/each}}
         </div>
