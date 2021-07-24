@@ -1,4 +1,5 @@
-var socket = io("http://localhost:3000");
+let url = 'http://localhost:3000'
+var socket = io(url);
 // let userId = document.getElementById('user')
 let room = document.querySelector('#id').innerText
 document.querySelector('#link').innerText = document.location.href

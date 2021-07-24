@@ -86,7 +86,8 @@ io.on('connection', async (socket) => {
     })
 
     socket.on('disconnect', async () => {
-      room = socket.handshake.headers.referer.split('/')[4]
+      room = socket.handshake.headers.referer.split('/')[4].replace("%20", " ")
+      console.log(`${room} disconnected`)
       if(lists[room] && lists[room].count == 1) {
         if(lists[room].saved){
           let doc = await Document.findById(room)
