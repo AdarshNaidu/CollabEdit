@@ -2,7 +2,7 @@
 
 <h1>CollabEdit</h1>
 
-<kbd><img src="images/collabedit.png" width=500></kbd>
+<kbd><img src="images/collabedit.png" width=800></kbd>
 
 <p>Collaborative text editor built using CRDT data structure</p>
 
